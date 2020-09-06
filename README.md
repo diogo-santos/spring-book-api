@@ -1,6 +1,8 @@
 # books-api
 Rest service for Book domain
 
+Check API documentation at https://spring-book-api.herokuapp.com/swagger-ui.html
+
 ## Getting the code on your computer
 - [ ] Java 8
 - [ ] Maven 3

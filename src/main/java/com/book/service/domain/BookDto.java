@@ -7,6 +7,6 @@ public interface BookDto {
     String getTitle();
     String getCategory();
     String getAuthor();
-    LocalDate getPublicationDate();
+    LocalDate getPublishedDate();
     String getImage();
 }

@@ -28,11 +28,11 @@ public class BookServiceTest {
 	 * Then - It should search books with pagination
 	 */
 	@Test
-	public void testGetAllBooksWithPagingAndSortByPublicationDate() {
+	public void testGetAllBooksWithPagingAndSortByPublishedDate() {
 		// Given
 		int pageNumber = 1;
 		int pageSize = 3;
-		String sortBy = "publicationDate";
+		String sortBy = "publishedDate";
 
 		// When
 		PageBookDto page = bookService.getAllBooks(pageNumber, pageSize, sortBy);
@@ -44,8 +44,8 @@ public class BookServiceTest {
 		assertThat(page.getBooks()).extracting(bookDto -> bookDto.getTitle().toLowerCase()).contains("reactjs");
 		assertThat(page.getBooks()).extracting(BookDto::getAuthor).contains("Vipul A M", "Todd Abel", "Charles David Crawford");
 		assertThat(page.getBooks()).extracting(BookDto::getCategory).containsOnly("Computers");
-		assertThat(page.getBooks()).first().extracting(BookDto::getPublicationDate).isEqualTo(LocalDate.of(2016, 4, 21));
-		assertThat(page.getBooks()).last().extracting(BookDto::getPublicationDate).isEqualTo(LocalDate.of(2018, 1, 1));
+		assertThat(page.getBooks()).first().extracting(BookDto::getPublishedDate).isEqualTo(LocalDate.of(2016, 4, 21));
+		assertThat(page.getBooks()).last().extracting(BookDto::getPublishedDate).isEqualTo(LocalDate.of(2018, 1, 1));
 
 		assertThat(page.getTotalElements()).isEqualTo(7);
 	}
@@ -75,8 +75,8 @@ public class BookServiceTest {
 		assertThat(page.getBooks()).extracting(BookDto::getImage).contains("", null,
 				"http://books.google.com/books/content?id=O7nAjwEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
 		);
-		assertThat(page.getBooks()).first().extracting(BookDto::getPublicationDate).isEqualTo(LocalDate.of(2016, 4, 21));
-		assertThat(page.getBooks()).last().extracting(BookDto::getPublicationDate).isEqualTo(LocalDate.of(2019, 1, 1));
+		assertThat(page.getBooks()).first().extracting(BookDto::getPublishedDate).isEqualTo(LocalDate.of(2016, 4, 21));
+		assertThat(page.getBooks()).last().extracting(BookDto::getPublishedDate).isEqualTo(LocalDate.of(2019, 1, 1));
 
 		assertThat(page.getTotalElements()).isEqualTo(7);
 	}
@@ -100,6 +100,6 @@ public class BookServiceTest {
 		assertThat(bookDto.getTitle()).isEqualTo("ReactJS Fundamentals");
 		assertThat(bookDto.getAuthor()).isEqualTo("Charles David Crawford");
 		assertThat(bookDto.getCategory()).isEqualTo("Computers");
-		assertThat(bookDto.getPublicationDate()).isEqualTo(LocalDate.of(2018, 1, 1));
+		assertThat(bookDto.getPublishedDate()).isEqualTo(LocalDate.of(2018, 1, 1));
 	}
 }

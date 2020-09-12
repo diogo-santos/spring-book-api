@@ -44,7 +44,7 @@ public class BookControllerTest {
 				.andExpect(jsonPath("$.books[0].title", is("ReactJS by Example - Building Modern Web Applications")))
 				.andExpect(jsonPath("$.books[0].category", is("Computers")))
 				.andExpect(jsonPath("$.books[0].author", is("Vipul A M")))
-				.andExpect(jsonPath("$.books[0].publicationDate", is("2016-04-21")))
+				.andExpect(jsonPath("$.books[0].publishedDate", is("2016-04-21")))
 				.andExpect(jsonPath("$.books[0].image", is("http://books.google.com/books/content?id=Ht3JDAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api")));
 	}
 
@@ -63,7 +63,7 @@ public class BookControllerTest {
 				.andExpect(jsonPath("$.books[0].title", is("JavaScript React")))
 				.andExpect(jsonPath("$.books[0].category", is("Computers")))
 				.andExpect(jsonPath("$.books[0].author", is("Victor Deras")))
-				.andExpect(jsonPath("$.books[0].publicationDate", is("2019-01-01")))
+				.andExpect(jsonPath("$.books[0].publishedDate", is("2019-01-01")))
 				.andExpect(jsonPath("$.books[0].image", is(emptyOrNullString())));
 	}
 
@@ -80,7 +80,7 @@ public class BookControllerTest {
 				.andExpect(jsonPath("$.title", is("ReactJS Fundamentals")))
 				.andExpect(jsonPath("$.category", is("Computers")))
 				.andExpect(jsonPath("$.author", is("Charles David Crawford")))
-				.andExpect(jsonPath("$.publicationDate", is("2018-01-01")))
+				.andExpect(jsonPath("$.publishedDate", is("2018-01-01")))
 				.andExpect(jsonPath("$.image", is(emptyOrNullString())));
 	}
 

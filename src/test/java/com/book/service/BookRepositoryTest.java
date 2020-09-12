@@ -29,11 +29,11 @@ public class BookRepositoryTest {
 	private BookRepository repository;
 
 	@Test
-	public void testFindAllBooksWithPagingAndSortByPublicationDate() {
+	public void testFindAllBooksWithPagingAndSortByPublishedDate() {
 		// Given a pre existing set of books
 
 		// When
-		Pageable paging = PageRequest.of(0, 3, Sort.by("publicationDate"));
+		Pageable paging = PageRequest.of(0, 3, Sort.by("publishedDate"));
 		Page<BookDto> page = repository.findAllBy(paging);
 
 		// Then
@@ -48,8 +48,8 @@ public class BookRepositoryTest {
 				"http://books.google.com/books/content?id=Ht3JDAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
 				"http://books.google.com/books/content?id=O7nAjwEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
 				"");
-		assertThat(page.getContent()).first().extracting(BookDto::getPublicationDate).isEqualTo(LocalDate.of(2016, 4, 21));
-		assertThat(page.getContent()).last().extracting(BookDto::getPublicationDate).isEqualTo(LocalDate.of(2018, 1, 1));
+		assertThat(page.getContent()).first().extracting(BookDto::getPublishedDate).isEqualTo(LocalDate.of(2016, 4, 21));
+		assertThat(page.getContent()).last().extracting(BookDto::getPublishedDate).isEqualTo(LocalDate.of(2018, 1, 1));
 
 		assertThat(page.getTotalElements()).isEqualTo(7);
 		assertThat(page.getTotalPages()).isEqualTo(3);
@@ -64,7 +64,7 @@ public class BookRepositoryTest {
 		bookToSave.setAuthor("Author");
 		bookToSave.setCategory("Category");
 		bookToSave.setImage("ImageUrl");
-		bookToSave.setPublicationDate(LocalDate.of(2020, 1, 1));
+		bookToSave.setPublishedDate(LocalDate.of(2020, 1, 1));
 
 		Book book = entityManager.persist(bookToSave);
 
@@ -77,7 +77,7 @@ public class BookRepositoryTest {
 		assertThat(bookDto.getTitle()).isEqualTo(book.getTitle());
 		assertThat(bookDto.getAuthor()).isEqualTo(book.getAuthor());
 		assertThat(bookDto.getCategory()).isEqualTo(book.getCategory());
-		assertThat(bookDto.getPublicationDate()).isEqualTo(book.getPublicationDate());
+		assertThat(bookDto.getPublishedDate()).isEqualTo(book.getPublishedDate());
 		assertThat(bookDto.getImage()).isEqualTo(book.getImage());
 	}
 }

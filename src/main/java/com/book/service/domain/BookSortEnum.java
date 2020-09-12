@@ -7,7 +7,7 @@ public enum BookSortEnum {
     TITLE("title"),
     AUTHOR("author"),
     CATEGORY("category"),
-    PUBLICATION_DATE("publicationDate");
+    PUBLISHED_DATE("publishedDate");
 
     private final String field;
 

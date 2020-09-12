@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import static com.book.service.domain.BookSortEnum.PUBLICATION_DATE;
+import static com.book.service.domain.BookSortEnum.PUBLISHED_DATE;
 
 @Service
 public class BookService {
@@ -22,7 +22,7 @@ public class BookService {
     public PageBookDto getAllBooks(final int pageNumber, final int pageSize, final String sortBy) {
         int page = pageNumber < 1 ? 0 : pageNumber - 1;
         int size = pageSize < 1 ? 5 : pageSize;
-        String field = BookSortEnum.contains(sortBy)? sortBy : PUBLICATION_DATE.getField();
+        String field = BookSortEnum.contains(sortBy)? sortBy : PUBLISHED_DATE.getField();
 
         Pageable pageable = PageRequest.of(page, size, Sort.by(field));
         Page<BookDto> pageBooks = bookRepo.findAllBy(pageable);

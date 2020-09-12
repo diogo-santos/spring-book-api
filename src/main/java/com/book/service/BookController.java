@@ -34,7 +34,7 @@ public class BookController {
     @GetMapping("/books")
     public ResponseEntity<PageBookDto> getAllBooks(@RequestParam(defaultValue = "1") final Integer pageNumber,
                                                    @RequestParam(defaultValue = "5") final Integer pageSize,
-                                                   @RequestParam(defaultValue = "publicationDate") final String sortBy) {
+                                                   @RequestParam(defaultValue = "publishedDate") final String sortBy) {
         logger.info("In getAllBooks with pageNumber {} pageSize {} sortBy {}", pageNumber, pageSize, sortBy);
         PageBookDto page = bookService.getAllBooks(pageNumber, pageSize, sortBy);
         logger.info("Out getAllBooks with pageNumber {} pageSize {} sortBy {}", pageNumber, pageSize, sortBy);

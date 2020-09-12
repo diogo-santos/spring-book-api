@@ -5,6 +5,6 @@ CREATE TABLE BOOK (
   title VARCHAR(100) NOT NULL,
   category VARCHAR(20) NOT NULL,
   author VARCHAR(40) NOT NULL,
-  publication_date DATE NOT NULL,
+  published_date DATE NOT NULL,
   image VARCHAR(255)
 );

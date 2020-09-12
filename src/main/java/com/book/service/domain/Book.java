@@ -23,6 +23,6 @@ public class Book {
     @NotBlank
     private String author;
     @NotNull
-    private LocalDate publicationDate;
+    private LocalDate publishedDate;
     private String image;
 }

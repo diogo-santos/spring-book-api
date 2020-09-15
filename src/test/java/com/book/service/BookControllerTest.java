@@ -1,5 +1,7 @@
 package com.book.service;
 
+import com.book.service.repo.Book;
+import com.book.service.repo.BookRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +12,16 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.time.LocalDate;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.emptyOrNullString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -28,6 +33,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class BookControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
+	@Autowired
+	private BookRepository repository;
 
 	@Test
 	public void whenPerformGetBooksWithoutPagination_ThenApplyDefaultPagination() throws Exception {
@@ -96,5 +103,47 @@ public class BookControllerTest {
 		mockMvc.perform(get("/books/7"))
 				.andExpect(status().isOk())
 				.andExpect(content().string(""));
+	}
+
+	@Test
+	public void givenBookWhenPerformPostThenBookIsCreated() throws Exception {
+		//Given book
+		String bookJson =
+				"{" +
+				"\"title\": \"Mock title\"," +
+				"\"author\":\"Mock author\"," +
+				"\"category\": \"Mock category\", " +
+				"\"publishedDate\": \"2020-01-01\"" +
+				"}";
+		//When
+		mockMvc.perform(post("/books")
+				.contentType(APPLICATION_JSON)
+				.content(bookJson))
+				.andExpect(status().isCreated());
+		//Then
+		Iterable<Book> books = repository.findAll();
+		assertThat(books).extracting(Book::getTitle).contains("Mock title");
+		assertThat(books).extracting(Book::getAuthor).contains("Mock author");
+		assertThat(books).extracting(Book::getCategory).contains("Mock category");
+		assertThat(books).extracting(Book::getPublishedDate).contains(LocalDate.of(2020, 1, 1));
+	}
+
+	@Test
+	public void givenBookWithoutTitleWhenPerformPostThenFieldErrorIsReturned() throws Exception {
+		//Given book without title
+		String bookJson = "{" +
+				"\"title\": \"\"," +
+				"\"author\":\"Mock author\"," +
+				"\"category\": \"Mock category\", " +
+				"\"publishedDate\": \"2020-01-01\"" +
+				"}";
+		//When
+		ResultActions postBooksResponse = mockMvc.perform(post("/books")
+				.contentType(APPLICATION_JSON)
+				.content(bookJson));
+		//Then
+		postBooksResponse
+				.andExpect(status().is4xxClientError())
+				.andExpect(jsonPath("$.title", is("must not be blank")));
 	}
 }

@@ -1,6 +1,6 @@
 package com.book.service;
 
-import com.book.service.domain.BookDto;
+import com.book.service.repo.BookView;
 import com.book.service.domain.PageBookDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,10 +42,10 @@ public class BookServiceTest {
 		assertThat(page.getBooks()).hasSize(3);
 
 		assertThat(page.getBooks()).extracting(bookDto -> bookDto.getTitle().toLowerCase()).contains("reactjs");
-		assertThat(page.getBooks()).extracting(BookDto::getAuthor).contains("Vipul A M", "Todd Abel", "Charles David Crawford");
-		assertThat(page.getBooks()).extracting(BookDto::getCategory).containsOnly("Computers");
-		assertThat(page.getBooks()).first().extracting(BookDto::getPublishedDate).isEqualTo(LocalDate.of(2016, 4, 21));
-		assertThat(page.getBooks()).last().extracting(BookDto::getPublishedDate).isEqualTo(LocalDate.of(2018, 1, 1));
+		assertThat(page.getBooks()).extracting(BookView::getAuthor).contains("Vipul A M", "Todd Abel", "Charles David Crawford");
+		assertThat(page.getBooks()).extracting(BookView::getCategory).containsOnly("Computers");
+		assertThat(page.getBooks()).first().extracting(BookView::getPublishedDate).isEqualTo(LocalDate.of(2016, 4, 21));
+		assertThat(page.getBooks()).last().extracting(BookView::getPublishedDate).isEqualTo(LocalDate.of(2018, 1, 1));
 
 		assertThat(page.getTotalElements()).isEqualTo(7);
 	}
@@ -70,13 +70,13 @@ public class BookServiceTest {
 		assertThat(page.getBooks()).hasSize(5);
 
 		assertThat(page.getBooks()).extracting(bookDto -> bookDto.getTitle().toLowerCase()).contains("reactjs");
-		assertThat(page.getBooks()).extracting(BookDto::getAuthor).contains("Vipul A M", "Todd Abel", "Charles David Crawford");
-		assertThat(page.getBooks()).extracting(BookDto::getCategory).containsOnly("Computers");
-		assertThat(page.getBooks()).extracting(BookDto::getImage).contains("", null,
+		assertThat(page.getBooks()).extracting(BookView::getAuthor).contains("Vipul A M", "Todd Abel", "Charles David Crawford");
+		assertThat(page.getBooks()).extracting(BookView::getCategory).containsOnly("Computers");
+		assertThat(page.getBooks()).extracting(BookView::getImage).contains("", null,
 				"http://books.google.com/books/content?id=O7nAjwEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
 		);
-		assertThat(page.getBooks()).first().extracting(BookDto::getPublishedDate).isEqualTo(LocalDate.of(2016, 4, 21));
-		assertThat(page.getBooks()).last().extracting(BookDto::getPublishedDate).isEqualTo(LocalDate.of(2019, 1, 1));
+		assertThat(page.getBooks()).first().extracting(BookView::getPublishedDate).isEqualTo(LocalDate.of(2016, 4, 21));
+		assertThat(page.getBooks()).last().extracting(BookView::getPublishedDate).isEqualTo(LocalDate.of(2019, 1, 1));
 
 		assertThat(page.getTotalElements()).isEqualTo(7);
 	}
@@ -92,14 +92,14 @@ public class BookServiceTest {
 		Long id = 6L;
 
 		// When
-		BookDto bookDto = bookService.getBookById(id);
+		BookView bookView = bookService.getBookById(id);
 
 		// Then
-		assertThat(bookDto).isNotNull();
-		assertThat(bookDto.getId()).isEqualTo(id);
-		assertThat(bookDto.getTitle()).isEqualTo("ReactJS Fundamentals");
-		assertThat(bookDto.getAuthor()).isEqualTo("Charles David Crawford");
-		assertThat(bookDto.getCategory()).isEqualTo("Computers");
-		assertThat(bookDto.getPublishedDate()).isEqualTo(LocalDate.of(2018, 1, 1));
+		assertThat(bookView).isNotNull();
+		assertThat(bookView.getId()).isEqualTo(id);
+		assertThat(bookView.getTitle()).isEqualTo("ReactJS Fundamentals");
+		assertThat(bookView.getAuthor()).isEqualTo("Charles David Crawford");
+		assertThat(bookView.getCategory()).isEqualTo("Computers");
+		assertThat(bookView.getPublishedDate()).isEqualTo(LocalDate.of(2018, 1, 1));
 	}
 }

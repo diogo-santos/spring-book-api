@@ -1,8 +1,8 @@
-package com.book.service.domain;
+package com.book.service.repo;
 
 import java.time.LocalDate;
 
-public interface BookDto {
+public interface BookView {
     Long getId();
     String getTitle();
     String getCategory();

@@ -1,7 +1,8 @@
 package com.book.service;
 
-import com.book.service.domain.Book;
-import com.book.service.domain.BookDto;
+import com.book.service.repo.Book;
+import com.book.service.repo.BookView;
+import com.book.service.repo.BookRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class BookRepositoryTest {
 
 		// When
 		Pageable paging = PageRequest.of(0, 3, Sort.by("publishedDate"));
-		Page<BookDto> page = repository.findAllBy(paging);
+		Page<BookView> page = repository.findAllBy(paging);
 
 		// Then
 		assertThat(page).isNotNull();
@@ -42,14 +43,14 @@ public class BookRepositoryTest {
 		assertThat(page.getContent()).hasSize(3);
 
 		assertThat(page.getContent()).extracting(bookDto -> bookDto.getTitle().toLowerCase()).contains("reactjs");
-		assertThat(page.getContent()).extracting(BookDto::getAuthor).contains("Vipul A M", "Todd Abel", "Charles David Crawford");
-		assertThat(page.getContent()).extracting(BookDto::getCategory).containsOnly("Computers");
-		assertThat(page.getContent()).extracting(BookDto::getImage).containsOnly(
+		assertThat(page.getContent()).extracting(BookView::getAuthor).contains("Vipul A M", "Todd Abel", "Charles David Crawford");
+		assertThat(page.getContent()).extracting(BookView::getCategory).containsOnly("Computers");
+		assertThat(page.getContent()).extracting(BookView::getImage).containsOnly(
 				"http://books.google.com/books/content?id=Ht3JDAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api",
 				"http://books.google.com/books/content?id=O7nAjwEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
 				"");
-		assertThat(page.getContent()).first().extracting(BookDto::getPublishedDate).isEqualTo(LocalDate.of(2016, 4, 21));
-		assertThat(page.getContent()).last().extracting(BookDto::getPublishedDate).isEqualTo(LocalDate.of(2018, 1, 1));
+		assertThat(page.getContent()).first().extracting(BookView::getPublishedDate).isEqualTo(LocalDate.of(2016, 4, 21));
+		assertThat(page.getContent()).last().extracting(BookView::getPublishedDate).isEqualTo(LocalDate.of(2018, 1, 1));
 
 		assertThat(page.getTotalElements()).isEqualTo(7);
 		assertThat(page.getTotalPages()).isEqualTo(3);
@@ -69,15 +70,15 @@ public class BookRepositoryTest {
 		Book book = entityManager.persist(bookToSave);
 
 		// When
-		BookDto bookDto = repository.findBookById(book.getId());
+		BookView bookView = repository.findBookById(book.getId());
 
 		// Then
-		assertThat(bookDto).isNotNull();
-		assertThat(bookDto.getId()).isEqualTo(book.getId());
-		assertThat(bookDto.getTitle()).isEqualTo(book.getTitle());
-		assertThat(bookDto.getAuthor()).isEqualTo(book.getAuthor());
-		assertThat(bookDto.getCategory()).isEqualTo(book.getCategory());
-		assertThat(bookDto.getPublishedDate()).isEqualTo(book.getPublishedDate());
-		assertThat(bookDto.getImage()).isEqualTo(book.getImage());
+		assertThat(bookView).isNotNull();
+		assertThat(bookView.getId()).isEqualTo(book.getId());
+		assertThat(bookView.getTitle()).isEqualTo(book.getTitle());
+		assertThat(bookView.getAuthor()).isEqualTo(book.getAuthor());
+		assertThat(bookView.getCategory()).isEqualTo(book.getCategory());
+		assertThat(bookView.getPublishedDate()).isEqualTo(book.getPublishedDate());
+		assertThat(bookView.getImage()).isEqualTo(book.getImage());
 	}
 }

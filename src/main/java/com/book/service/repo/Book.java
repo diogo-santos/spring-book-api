@@ -1,4 +1,4 @@
-package com.book.service.domain;
+package com.book.service.repo;
 
 import lombok.Data;
 
@@ -7,7 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Data
@@ -22,7 +21,6 @@ public class Book {
     private String category;
     @NotBlank
     private String author;
-    @NotNull
     private LocalDate publishedDate;
     private String image;
 }

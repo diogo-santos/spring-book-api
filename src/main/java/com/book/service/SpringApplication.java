@@ -1,7 +1,6 @@
 package com.book.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
@@ -20,13 +19,13 @@ import static springfox.documentation.spi.DocumentationType.SWAGGER_2;
 
 @EnableSwagger2
 @SpringBootApplication
-public class BookSpringApplication {
+public class SpringApplication {
 
 	@Autowired
 	private Environment env;
 
 	public static void main(String[] args) {
-		SpringApplication.run(BookSpringApplication.class, args);
+		org.springframework.boot.SpringApplication.run(SpringApplication.class, args);
 	}
 
 	@Bean

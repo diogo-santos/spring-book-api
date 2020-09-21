@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.Year;
 import java.time.format.DateTimeFormatter;
 
 import static com.book.service.domain.BookSortEnum.PUBLISHED_DATE;
@@ -20,6 +21,8 @@ import static org.springframework.util.StringUtils.hasText;
 
 @Service
 public class BookService {
+
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
     private final BookRepository repo;
 
     public BookService(BookRepository repo) {
@@ -47,17 +50,27 @@ public class BookService {
         bookToSave.setAuthor(createBookDto.getAuthor());
         bookToSave.setCategory(createBookDto.getCategory());
         bookToSave.setImage(createBookDto.getImage());
-        LocalDate publishedDate = null;
-        if (hasText(createBookDto.getPublishedDate())) {
-            if (createBookDto.getPublishedDate().length() == 4) {
-                publishedDate = LocalDate.of(Integer.parseInt(createBookDto.getPublishedDate()), 1, 1);
-            } else if (createBookDto.getPublishedDate().length() == 10) {
-                publishedDate = LocalDate.parse(createBookDto.getPublishedDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            }
-        }
-        bookToSave.setPublishedDate(publishedDate);
+        bookToSave.setPublishedDate(convertDate(createBookDto.getPublishedDate()));
         Book book = repo.save(bookToSave);
         return book.getId();
+    }
+
+    private LocalDate convertDate(String dateStr) {
+        LocalDate publishedDate = null;
+        if (hasText(dateStr)) {
+            try {
+                if (dateStr.length() == 4) {
+                    int year = Year.parse(dateStr).getValue();
+                    publishedDate = LocalDate.of(year, 1, 1);
+                } else if (dateStr.length() == 10) {
+                    publishedDate = LocalDate.parse(dateStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
+                }
+            } catch (Exception e) {
+              throw new IllegalArgumentException(String.format("Invalid date %s. It should be a year (yyyy) or date (%s) format", dateStr, DATE_FORMAT), e);
+            }
+        }
+
+        return publishedDate;
     }
 
     public void delete(final Long id) {

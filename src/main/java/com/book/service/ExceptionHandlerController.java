@@ -30,6 +30,14 @@ public class ExceptionHandlerController {
         return new ResponseEntity<>(body, BAD_REQUEST);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, Object>> handleIllegalArgumentException(IllegalArgumentException ex) {
+        logger.error(ex.getMessage(), ex);
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("message", ex.getMessage());
+        return new ResponseEntity<>(body, BAD_REQUEST);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleException(Exception ex) {
         logger.error(ex.getMessage(), ex);
